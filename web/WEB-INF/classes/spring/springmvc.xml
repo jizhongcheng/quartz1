@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+xmlns:jee="http://www.springframework.org/schema/jee"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
+    
+    
+     <!-- 配置视图解析器 -->
+     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <!-- 使用前缀和后缀 -->
+         <property name="prefix" value="/"></property>
+         <property name="suffix" value=".jsp"></property>
+     </bean>
+     
+     <!-- 使用组件扫描的方式可以一次扫描多个Controller -->
+     <context:component-scan base-package="com.etoak"></context:component-scan>
+ 
+	<!-- mvc命名空间提供的注解驱动用于解析@ResponseBody注解 -->
+	<mvc:annotation-driven/>
+
+    <!-- 访问静态资源文件 -->
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/imgdata/**" location="/imgdata/" />
+
+
+    <!--配置可以启动和停止的quartz 自动注入工厂  这个必须有 -->
+    <bean id="jobFactory" class="com.etoak.quartz.springmvcQuartz.JobFactory"/>
+    <!-- 总配置 -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobFactory" ref="jobFactory"></property>
+    </bean>
+
+
+ </beans>

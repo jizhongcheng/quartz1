@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" 
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <display-name></display-name>  
+
+
+    <!-- 为避免项目间冲突，定义唯一的 webAppRootKey -->
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>scheduleProject</param-value>
+    </context-param> 
+
+  
+  <!-- 加载spring容器 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/classes/spring/applicationContext-*.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    
+  <!-- 配置前端控制器 -->
+  <servlet>
+      <servlet-name>springaaa</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+          <!-- ContextconfigLocation配置springmvc加载的配置文件
+          适配器、处理映射器等
+           -->
+<!--            如果不配置这个参数，默认找WEB-INF 下的 springaaa-servlet.xml -->
+          <param-name>contextConfigLocation</param-name>
+          <param-value>WEB-INF/classes/spring/springmvc.xml</param-value>
+  </init-param>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>springaaa</servlet-name>
+      <!-- 1、.action访问以.action结尾的  由DispatcherServlet进行解析
+           2、/,所有访问都由DispatcherServlet进行解析
+       -->
+      <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>welcome.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+    
+</web-app>
